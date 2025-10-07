@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addUser, deleteAll, deleteUser, getAll, getUser, updateUser } from "../controllers/User.js";
+import { addUser, deleteAll, deleteUser, getAll, getUser, login, logout, updateUser } from "../controllers/User.js";
 import hashedpassword from "../middlewares/passwordHashing.js";
 
 
@@ -23,4 +23,6 @@ userRouter.get("/get/:userName" , getUser)
 userRouter.patch("/update/:userName" , updateUser)
 userRouter.delete("/delete" , deleteAll)
 userRouter.delete("/delete/:userName" , deleteUser)
+userRouter.post("/logout/:userName", logout)
+userRouter.post("/login", login)
   export default userRouter;

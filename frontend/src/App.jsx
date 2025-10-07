@@ -10,8 +10,10 @@ import Profile from './Profile'
       <button >signup</button>
       
       </Link>
+<Link to="/profile">
+<button>profile</button>
+</Link>
 
-<button></button>
       <Routes>
 
 
