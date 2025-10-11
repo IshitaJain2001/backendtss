@@ -19,10 +19,10 @@ import hashedpassword from "../middlewares/passwordHashing.js";
 
 userRouter.post("/add" ,  hashedpassword  , addUser)
 userRouter.get("/get" , getAll)
-userRouter.get("/get/:userName" , getUser)
+userRouter.post("/getUser" , getUser)
 userRouter.patch("/update/:userName" , updateUser)
 userRouter.delete("/delete" , deleteAll)
 userRouter.delete("/delete/:userName" , deleteUser)
-userRouter.post("/logout/:userName", logout)
+userRouter.post("/logout", logout)
 userRouter.post("/login", login)
   export default userRouter;

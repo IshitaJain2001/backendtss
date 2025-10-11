@@ -14,16 +14,6 @@ if((!firstName || firstName.trim()=== "") || (!userName || userName.trim()=== ""
     })
 }
 
-
- // bcrypt - password hash 
-// username duplicate 
- 
-// let ifExist= false;
-//        users.forEach((user)=> 
-//       user.userName=== userName ? ifExist= true:ifExist= false
-//      )
-
-
 let ifExist= users.find((user)=> user.userName=== userName)
 
 if(ifExist){
@@ -45,15 +35,28 @@ users.push(req.body)
 let token=  jwt.sign({id:userName},process.env.secret_key,{
   expiresIn:"3d"
  } )
- return res.status(200)
+ console.log(token);
+ 
+ return res.status(201)
  .cookie("token", token)
  .json({
   message:"signedUp successfully !!",
   user:req.body
  })
  }
+
+
+
+
+
+
+ // get USER 
+
   export async function getUser(req,res){
+    console.log(req.cookies );
+    
 let {token} = req.cookies
+console.log(token);
 
 try {
 if(!token) return res.status(401).json({
@@ -65,6 +68,7 @@ const decoded=   jwt.verify(token, process.env.secret_key)
 // id
 
 const userName= decoded.id
+console.log(userName);
 
  const userFound= users.find((user)=> user.userName=== userName)
 if(!userFound) return res.status(404).json({
@@ -78,7 +82,7 @@ if(!userFound) return res.status(404).json({
 
 } catch (error) {
  return res.status(500).json({
-  message:" error on server side "
+  message: error
  }) 
 }
  
@@ -99,7 +103,33 @@ if(!userFound) return res.status(404).json({
  }
 
  export function logout(req,res){
+ // token?? 
 
+  const {token}= req.cookies
+
+  console.log(token );
+
+  if(!token){
+    return res.status(401).json({
+      message:"please login first..."
+    })
+  }
+   
+  const {id}= jwt.verify(token, process.env.secret_key)
+
+  const userFound= users.find(user=> user.userName=== id)
+
+  if(!userFound){
+    return res.status(404).json({
+      message:"invalid token "
+    })
+  }
+
+  // token , shi b h 
+
+   return res.clearCookie().status(200).json({
+    message:"logged out successfully "
+   })
  }
 
  export async function login(req,res){
@@ -139,6 +169,7 @@ let token=  jwt.sign({id:userName},process.env.secret_key,{
  return res.status(200)
  .cookie("token", token)
  .json({
-  message:"loggedin successfully !!"
+  message:"loggedin successfully !!",
+  user: userFound
  })
  }

@@ -27,9 +27,11 @@ setForm({
  let res= await fetch("http://localhost:3000/user/add" , {
   method:"POST",
   headers:{
- "Content-Type":"application/json"
+ "Content-Type":"application/json",
+
   },
-  body: JSON.stringify(form)
+  body: JSON.stringify(form),
+   credentials:"include"
  }) 
 let data;
     if(res.status=== 401){
@@ -41,6 +43,8 @@ let data;
 
     if(res.status=== 201){
             data=  await res.json()
+            console.log(data);
+            
         dispatch({
             type:"signup",
             payload: data.user
